@@ -1,0 +1,35 @@
+/* Scope listing styles to component host so they don't affect other parts of the app */
+:host {
+
+	/* Add a vertical border between the toggle button and the details area */
+	.tile-header {
+		/* make the immediate children align so we can place a border after the button */
+		align-items: center;
+	}
+
+	.tile-header .toggle-btn {
+		/* make the button a filled primary and remove outline variant */
+		background-color: var(--bs-primary);
+		border-color: var(--bs-primary);
+		color: #fff;
+	}
+
+	.tile-header .toggle-btn + .flex-grow-1 {
+		/* add a left border to visually separate the button from content */
+		padding-left: 1rem;
+		margin-left: 0.5rem;
+		border-left: 1px solid rgba(0,0,0,0.08);
+	}
+
+	/* Slightly reduce icon opacity when closed */
+	.toggle-btn .bi {
+		opacity: 0.9;
+	}
+
+		/* Small helper to show pointer cursor on clickable areas */
+		.clickable {
+			cursor: pointer;
+		}
+
+}
+

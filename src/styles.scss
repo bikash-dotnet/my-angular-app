@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+// Import Bootstrap (modern @use syntax)
+@use 'bootstrap/scss/bootstrap' as *;
+
+// Import Bootstrap Icons (plain CSS)
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// NOTE: Component-specific styles (tabs, tables, animations, responsive tweaks)
+// have been moved into their respective component SCSS files to avoid
+// leaking styles globally. Keep only global imports here.

@@ -1,0 +1,275 @@
+/* Component-scoped styles for ExpandableContent */
+:host {
+
+	/* Spinner spin animation */
+	.bi-arrow-clockwise.spin {
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
+	}
+
+	/* Tabs visual styles (moved from global styles) */
+	.tabs-container {
+		.nav-tabs {
+			.nav-link {
+				border: none;
+				border-bottom: 3px solid transparent;
+				color: #6c757d;
+				font-weight: 500;
+				padding: 0.75rem 1rem;
+				transition: all 0.2s ease-in-out;
+        
+				&:hover {
+					border-bottom-color: #dee2e6;
+					color: #495057;
+					background-color: transparent;
+				}
+        
+				&.active {
+					border-bottom-color: #0d6efd;
+					color: #0d6efd;
+					background-color: transparent;
+          
+					&:hover {
+						border-bottom-color: #0d6efd;
+						color: #0d6efd;
+					}
+				}
+			}
+		}
+
+		.tab-content {
+			height: 400px; // Fixed height for all tabs
+			display: flex;
+			flex-direction: column;
+      
+					.tab-pane {
+						/* Hidden by default; bootstrap toggles .show / .active */
+						flex: 1;
+						display: none;
+						flex-direction: column;
+						animation: fadeIn 0.3s ease-in-out;
+
+						/* When Bootstrap activates the pane it will have .show / .active */
+						&.show,
+						&.active {
+							display: flex;
+						}
+
+						// Content area that grows and scrolls
+						> div:not(.loading-state) {
+							flex: 1;
+							display: flex;
+							flex-direction: column;
+						}
+					}
+		}
+
+		/* Loading state that centers the spinner vertically and horizontally */
+		.loading-state {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			flex: 1 1 auto;
+			min-height: 200px; /* reasonable minimum so centering works */
+			padding: 1.5rem 0;
+			background: transparent;
+			.spinner-border {
+				width: 3rem;
+				height: 3rem;
+				border-width: .25rem;
+			}
+		}
+	}
+
+	/* Table container with fixed height and scroll */
+	.table-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: 0; // Important for flexbox scrolling
+    
+		&.empty {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+    
+		.table-responsive {
+			flex: 1;
+			overflow: auto;
+			border: 1px solid #dee2e6;
+			border-radius: 0.375rem;
+      
+			// Custom scrollbar
+			&::-webkit-scrollbar {
+				width: 8px;
+				height: 8px;
+			}
+      
+			&::-webkit-scrollbar-track {
+				background: #f8f9fa;
+				border-radius: 4px;
+			}
+      
+			&::-webkit-scrollbar-thumb {
+				background: #ced4da;
+				border-radius: 4px;
+        
+				&:hover {
+					background: #adb5bd;
+				}
+			}
+      
+			table {
+				margin-bottom: 0;
+        
+				thead {
+					th {
+						position: sticky;
+						top: 0;
+						background: #f8f9fa;
+						z-index: 10;
+						border-bottom: 2px solid #dee2e6;
+						white-space: nowrap;
+            
+						&.sortable {
+							cursor: pointer;
+              
+							&:hover {
+								background: #e9ecef;
+							}
+						}
+					}
+				}
+        
+				tbody {
+					tr {
+						transition: background-color 0.15s ease-in-out;
+            
+						&:hover {
+							background-color: rgba(0, 123, 255, 0.075);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/* Empty state styling */
+	.empty-state {
+		.bi-inbox {
+			opacity: 0.5;
+		}
+	}
+
+	/* Progress bar in tables */
+	.progress {
+		min-width: 60px;
+	}
+
+	/* Badge styling in tables */
+	.badge {
+		font-size: 0.75em;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	/* Ensure proper spacing for refresh buttons in tabs */
+	.nav-link {
+		position: relative;
+    
+		.btn-link {
+			position: relative;
+			z-index: 1;
+      
+			&:hover {
+				background-color: rgba(0,0,0,0.05);
+				border-radius: 0.25rem;
+			}
+		}
+	}
+
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		.tabs-container {
+			.tab-content {
+				height: 300px; // Smaller height on mobile
+			}
+      
+			.table-responsive {
+				font-size: 0.875rem;
+			}
+		}
+	}
+
+	/* Tabs header layout */
+	.tabs-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.refresh-container button {
+		width: 38px;
+		height: 32px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.refresh-container i.text-success {
+		color: #198754; /* bootstrap success */
+	}
+
+	/* Table container layout */
+	.table-container {
+		position: relative;
+	}
+
+	/* The wrapper provides a fixed max-height and will show scrollbars when table overflows. Adjust max-height as needed. */
+	.table-wrapper {
+		max-height: 320px; /* adjust to taste */
+		overflow: hidden;
+	}
+
+	.table-scroll {
+		width: 100%;
+		height: 100%;
+		overflow: auto; /* shows horizontal or vertical scrollbars as needed */
+	}
+
+		/* Small helper for compact progress bars (avoid inline styles) */
+		.progress-sm {
+			height: 6px;
+		}
+
+	/* Ensure table header sticks when scrolling vertically */
+	.table-scroll thead th.sticky-top {
+		position: sticky;
+		top: 0;
+		z-index: 5;
+		background: #f8f9fa; /* match .table-light */
+	}
+
+	/* Small styling for empty state */
+	.table-container.empty .empty-state {
+		padding: 40px 0;
+	}
+
+	/* Prevent table cells from overflowing their column widths */
+	.table td, .table th {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+}
+
