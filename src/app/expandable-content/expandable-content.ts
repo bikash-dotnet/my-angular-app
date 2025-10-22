@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule, NgForOf, NgIf } from '@angular/common';
-import { TabData, TableColumn } from '../tile.model';
+import { CoverageItem, TabData, TableColumn } from '../tile.model';
 import { TileService } from '../tile.service';
 @Component({
   selector: 'app-expandable-content',
@@ -48,6 +48,7 @@ export class ExpandableContent implements OnChanges {
     // Load columns when tab changes
     if (changes['selectedTabId'] && this.selectedTabId) {
       this.columns = this.tileService.getColumnsForTab(this.selectedTabId);
+      this.expandedRows.clear();
     }
   }
 
@@ -55,12 +56,14 @@ export class ExpandableContent implements OnChanges {
     if (tabId !== this.selectedTabId) {
       this.selectedTabId = tabId;
       this.columns = this.tileService.getColumnsForTab(tabId);
+      this.expandedRows.clear();
       this.tabSelected.emit({ tileId: this.tileId, tabId });
     }
   }
 
   onRefreshClick(tabId: string, event: Event): void {
     event.stopPropagation();
+    this.expandedRows.clear();
     this.tabRefreshed.emit({ tileId: this.tileId, tabId });
   }
 
@@ -109,6 +112,7 @@ export class ExpandableContent implements OnChanges {
 
   // Refresh the currently selected tab (emits to parent)
   refreshActiveTab(event?: Event): void {
+    this.expandedRows.clear();
     if (event) {
       event.stopPropagation();
     }
@@ -141,6 +145,15 @@ export class ExpandableContent implements OnChanges {
   // Check if current tab is analytics
   isAnalyticsTab(): boolean {
     return this.selectedTabId === 'analytics';
+  }
+
+  // Helper methods for summary
+  getActiveCount(coverage: CoverageItem[]): number {
+    return coverage.filter(item => item.status === 'Active').length;
+  }
+
+  getInactiveCount(coverage: CoverageItem[]): number {
+    return coverage.filter(item => item.status === 'Inactive').length;
   }
 
 }
