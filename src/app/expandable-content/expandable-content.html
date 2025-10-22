@@ -55,7 +55,7 @@
             </div>
 
             <!-- Data Table -->
-            <div *ngIf="hasData(tab.id)" class="table-responsive table-wrapper">
+            <div *ngIf="hasData(tab.id) && !isAnalyticsTab()" class="table-responsive table-wrapper">
               <div class="table-scroll">
                 <table class="table table-striped table-hover mb-0">
                 <thead class="table-light sticky-top">
@@ -117,6 +117,101 @@
                 </tbody>
                 </table>
               </div>
+            </div>
+
+            <!-- Expandable Table for Analytics Tab -->
+            <div *ngIf="hasData(tab.id) && isAnalyticsTab()" class="table-responsive flex-grow-1 border rounded">
+              <table class="table table-hover mb-0">
+                <thead class="table-light position-sticky top-0">
+                  <tr>
+                    <th class="w-auto" style="width: 50px;"></th>
+                    <th class="w-auto">LOB (Line of Business)</th>
+                    <th class="w-auto">Total Coverage</th>
+                    <th class="w-auto">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let item of tab.data; trackBy: trackByFn">
+                    <!-- Parent Row -->
+                    <tr [class.table-active]="isRowExpanded(item.id)">
+                      <td>
+                        <button class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                                (click)="toggleRow(item.id, $event)"
+                                [title]="isRowExpanded(item.id) ? 'Collapse' : 'Expand'"
+                                style="width: 30px; height: 30px;">
+                          <i class="bi" 
+                             [class.bi-chevron-down]="isRowExpanded(item.id)"
+                             [class.bi-chevron-right]="!isRowExpanded(item.id)"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <strong>{{ item.lob }}</strong>
+                      </td>
+                      <td>
+                        <span class="badge bg-primary">{{ item.totalCoverage || item.coverage.length }}</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-outline-secondary">
+                          <i class="bi bi-three-dots"></i>
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    <!-- Child Row (Expanded Content) -->
+                    <tr *ngIf="isRowExpanded(item.id)">
+                      <td colspan="4" class="p-0 border-0">
+                        <div class="bg-light">
+                          <div class="p-3 border-bottom border-1">
+                            <h6 class="mb-1">Coverage for {{ item.lob }}</h6>
+                            <small class="text-muted">{{ item.coverage.length }} coverage items</small>
+                          </div>
+                          
+                          <!-- Child Table -->
+                          <div class="p-2">
+                            <div class="table-responsive" style="max-height: 200px;">
+                              <table class="table table-sm table-bordered mb-0">
+                                <thead class="table-secondary position-sticky top-0">
+                                  <tr>
+                                    <th class="w-auto">ID</th>
+                                    <th class="w-auto">Name</th>
+                                    <th class="w-auto">Value</th>
+                                    <th class="w-auto">Status</th>
+                                    <th class="w-auto">Description</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let coverageItem of item.coverage; trackBy: trackByCoverageFn">
+                                    <td>
+                                      <span class="badge bg-dark">#{{ coverageItem.id }}</span>
+                                    </td>
+                                    <td>
+                                      <strong>{{ coverageItem.name }}</strong>
+                                    </td>
+                                    <td>
+                                      <span class="text-success fw-bold">{{ coverageItem.value || 'N/A' }}</span>
+                                    </td>
+                                    <td>
+                                      <span class="badge" 
+                                            [class.bg-success]="coverageItem.status === 'Active'"
+                                            [class.bg-warning]="coverageItem.status === 'Pending'"
+                                            [class.bg-danger]="coverageItem.status === 'Inactive'">
+                                        {{ coverageItem.status || 'Unknown' }}
+                                      </span>
+                                    </td>
+                                    <td>
+                                      <small class="text-muted">{{ coverageItem.description || 'No description' }}</small>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

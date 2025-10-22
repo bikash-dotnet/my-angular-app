@@ -20,6 +20,8 @@ export class ExpandableContent implements OnChanges {
   @Output() tabRefreshed = new EventEmitter<{ tileId: string; tabId: string }>();
 
   columns: TableColumn[] = [];
+  expandedRows: Set<number> = new Set();
+
   constructor(private tileService: TileService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -114,4 +116,31 @@ export class ExpandableContent implements OnChanges {
       this.tabRefreshed.emit({ tileId: this.tileId, tabId: this.selectedTabId });
     }
   }
+
+  trackByCoverageFn(index: number, item: any): any {
+    return item.id || index;
+  }
+
+  // Toggle row expansion
+  toggleRow(rowId: number, event?: Event): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    if (this.expandedRows.has(rowId)) {
+      this.expandedRows.delete(rowId);
+    } else {
+      this.expandedRows.add(rowId);
+    }
+  }
+
+  isRowExpanded(rowId: number): boolean {
+    return this.expandedRows.has(rowId);
+  }
+
+  // Check if current tab is analytics
+  isAnalyticsTab(): boolean {
+    return this.selectedTabId === 'analytics';
+  }
+
 }

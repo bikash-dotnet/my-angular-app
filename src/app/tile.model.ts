@@ -32,3 +32,18 @@ export interface TableColumn {
   sortable?: boolean;
   width?: string;
 }
+
+// Special interface for analytics tab data
+export interface AnalyticsData {
+  lob: string;
+  coverage: CoverageItem[];
+  expanded?: boolean;
+}
+
+export interface CoverageItem {
+  id: number;
+  name: string;
+  value?: number;
+  status?: string;
+  description?: string;
+}

@@ -1,80 +1,607 @@
 {
   "overview": {
     "data": [
-      { "id": 1, "taskName": "Design System Implementation", "assignee": "Alice Johnson", "status": "In Progress", "progress": 45, "dueDate": "10/25/2025", "priority": "High" },
-      { "id": 2, "taskName": "API Integration", "assignee": "Bob Smith", "status": "Completed", "progress": 100, "dueDate": "10/10/2025", "priority": "Medium" },
-      { "id": 3, "taskName": "User Testing", "assignee": "Charlie Brown", "status": "Pending", "progress": 0, "dueDate": "11/01/2025", "priority": "Low" },
-      { "id": 4, "taskName": "Documentation", "assignee": "Diana Prince", "status": "On Hold", "progress": 10, "dueDate": "10/30/2025", "priority": "High" },
-      { "id": 5, "taskName": "Performance Optimization", "assignee": "Alice Johnson", "status": "In Progress", "progress": 60, "dueDate": "11/05/2025", "priority": "Medium" },
-      { "id": 6, "taskName": "Security Audit", "assignee": "Bob Smith", "status": "Completed", "progress": 100, "dueDate": "10/20/2025", "priority": "Low" },
-      { "id": 7, "taskName": "Mobile Responsive Fixes", "assignee": "Charlie Brown", "status": "In Progress", "progress": 30, "dueDate": "11/10/2025", "priority": "High" },
-      { "id": 8, "taskName": "Database Migration", "assignee": "Diana Prince", "status": "Pending", "progress": 0, "dueDate": "11/15/2025", "priority": "Medium" },
-      { "id": 9, "taskName": "UI Polish", "assignee": "Alice Johnson", "status": "On Hold", "progress": 5, "dueDate": "11/18/2025", "priority": "Low" },
-      { "id": 10, "taskName": "Release Prep", "assignee": "Bob Smith", "status": "In Progress", "progress": 80, "dueDate": "11/20/2025", "priority": "High" }
+      {
+        "id": 1,
+        "taskName": "Design System Implementation",
+        "assignee": "Alice Johnson",
+        "status": "In Progress",
+        "progress": 45,
+        "dueDate": "10/25/2025",
+        "priority": "High"
+      },
+      {
+        "id": 2,
+        "taskName": "API Integration",
+        "assignee": "Bob Smith",
+        "status": "Completed",
+        "progress": 100,
+        "dueDate": "10/10/2025",
+        "priority": "Medium"
+      },
+      {
+        "id": 3,
+        "taskName": "User Testing",
+        "assignee": "Charlie Brown",
+        "status": "Pending",
+        "progress": 0,
+        "dueDate": "11/01/2025",
+        "priority": "Low"
+      },
+      {
+        "id": 4,
+        "taskName": "Documentation",
+        "assignee": "Diana Prince",
+        "status": "On Hold",
+        "progress": 10,
+        "dueDate": "10/30/2025",
+        "priority": "High"
+      },
+      {
+        "id": 5,
+        "taskName": "Performance Optimization",
+        "assignee": "Alice Johnson",
+        "status": "In Progress",
+        "progress": 60,
+        "dueDate": "11/05/2025",
+        "priority": "Medium"
+      },
+      {
+        "id": 6,
+        "taskName": "Security Audit",
+        "assignee": "Bob Smith",
+        "status": "Completed",
+        "progress": 100,
+        "dueDate": "10/20/2025",
+        "priority": "Low"
+      },
+      {
+        "id": 7,
+        "taskName": "Mobile Responsive Fixes",
+        "assignee": "Charlie Brown",
+        "status": "In Progress",
+        "progress": 30,
+        "dueDate": "11/10/2025",
+        "priority": "High"
+      },
+      {
+        "id": 8,
+        "taskName": "Database Migration",
+        "assignee": "Diana Prince",
+        "status": "Pending",
+        "progress": 0,
+        "dueDate": "11/15/2025",
+        "priority": "Medium"
+      },
+      {
+        "id": 9,
+        "taskName": "UI Polish",
+        "assignee": "Alice Johnson",
+        "status": "On Hold",
+        "progress": 5,
+        "dueDate": "11/18/2025",
+        "priority": "Low"
+      },
+      {
+        "id": 10,
+        "taskName": "Release Prep",
+        "assignee": "Bob Smith",
+        "status": "In Progress",
+        "progress": 80,
+        "dueDate": "11/20/2025",
+        "priority": "High"
+      }
     ],
     "lastUpdated": "10:00:00 AM",
     "totalCount": 10
   },
   "team": {
     "data": [
-      { "id": 1, "name": "User 1", "role": "Developer", "department": "Engineering", "email": "user1@company.com", "joinDate": "01/15/2025", "status": "Active" },
-      { "id": 2, "name": "User 2", "role": "Designer", "department": "Design", "email": "user2@company.com", "joinDate": "02/10/2025", "status": "Remote" },
-      { "id": 3, "name": "User 3", "role": "QA Engineer", "department": "Quality Assurance", "email": "user3@company.com", "joinDate": "03/05/2025", "status": "On Leave" },
-      { "id": 4, "name": "User 4", "role": "Product Manager", "department": "Product", "email": "user4@company.com", "joinDate": "04/12/2025", "status": "Active" },
-      { "id": 5, "name": "User 5", "role": "DevOps", "department": "Operations", "email": "user5@company.com", "joinDate": "05/20/2025", "status": "Remote" },
-      { "id": 6, "name": "User 6", "role": "Developer", "department": "Engineering", "email": "user6@company.com", "joinDate": "06/10/2025", "status": "Active" },
-      { "id": 7, "name": "User 7", "role": "Designer", "department": "Design", "email": "user7@company.com", "joinDate": "07/01/2025", "status": "On Leave" },
-      { "id": 8, "name": "User 8", "role": "QA Engineer", "department": "Quality Assurance", "email": "user8@company.com", "joinDate": "07/15/2025", "status": "Active" },
-      { "id": 9, "name": "User 9", "role": "Product Manager", "department": "Product", "email": "user9@company.com", "joinDate": "08/01/2025", "status": "Remote" },
-      { "id": 10, "name": "User 10", "role": "DevOps", "department": "Operations", "email": "user10@company.com", "joinDate": "08/10/2025", "status": "Active" }
+      {
+        "id": 1,
+        "name": "User 1",
+        "role": "Developer",
+        "department": "Engineering",
+        "email": "user1@company.com",
+        "joinDate": "01/15/2025",
+        "status": "Active"
+      },
+      {
+        "id": 2,
+        "name": "User 2",
+        "role": "Designer",
+        "department": "Design",
+        "email": "user2@company.com",
+        "joinDate": "02/10/2025",
+        "status": "Remote"
+      },
+      {
+        "id": 3,
+        "name": "User 3",
+        "role": "QA Engineer",
+        "department": "Quality Assurance",
+        "email": "user3@company.com",
+        "joinDate": "03/05/2025",
+        "status": "On Leave"
+      },
+      {
+        "id": 4,
+        "name": "User 4",
+        "role": "Product Manager",
+        "department": "Product",
+        "email": "user4@company.com",
+        "joinDate": "04/12/2025",
+        "status": "Active"
+      },
+      {
+        "id": 5,
+        "name": "User 5",
+        "role": "DevOps",
+        "department": "Operations",
+        "email": "user5@company.com",
+        "joinDate": "05/20/2025",
+        "status": "Remote"
+      },
+      {
+        "id": 6,
+        "name": "User 6",
+        "role": "Developer",
+        "department": "Engineering",
+        "email": "user6@company.com",
+        "joinDate": "06/10/2025",
+        "status": "Active"
+      },
+      {
+        "id": 7,
+        "name": "User 7",
+        "role": "Designer",
+        "department": "Design",
+        "email": "user7@company.com",
+        "joinDate": "07/01/2025",
+        "status": "On Leave"
+      },
+      {
+        "id": 8,
+        "name": "User 8",
+        "role": "QA Engineer",
+        "department": "Quality Assurance",
+        "email": "user8@company.com",
+        "joinDate": "07/15/2025",
+        "status": "Active"
+      },
+      {
+        "id": 9,
+        "name": "User 9",
+        "role": "Product Manager",
+        "department": "Product",
+        "email": "user9@company.com",
+        "joinDate": "08/01/2025",
+        "status": "Remote"
+      },
+      {
+        "id": 10,
+        "name": "User 10",
+        "role": "DevOps",
+        "department": "Operations",
+        "email": "user10@company.com",
+        "joinDate": "08/10/2025",
+        "status": "Active"
+      }
     ],
     "lastUpdated": "10:01:00 AM",
     "totalCount": 10
   },
   "analytics": {
     "data": [
-      { "id": 1, "metric": "User Engagement", "current": 500, "previous": 450, "change": "+11.1%", "trend": "up", "target": 600 },
-      { "id": 2, "metric": "Page Views", "current": 1200, "previous": 1100, "change": "+9.1%", "trend": "up", "target": 1300 },
-      { "id": 3, "metric": "Conversion Rate", "current": 7.2, "previous": 6.8, "change": "+5.9%", "trend": "up", "target": 8.0 },
-      { "id": 4, "metric": "Bounce Rate", "current": 38.5, "previous": 40.0, "change": "-3.8%", "trend": "down", "target": 35.0 },
-      { "id": 5, "metric": "Session Duration", "current": 320, "previous": 300, "change": "+6.7%", "trend": "up", "target": 350 },
-      { "id": 6, "metric": "New Users", "current": 150, "previous": 120, "change": "+25.0%", "trend": "up", "target": 180 },
-      { "id": 7, "metric": "Returning Users", "current": 80, "previous": 90, "change": "-11.1%", "trend": "down", "target": 100 },
-      { "id": 8, "metric": "Revenue", "current": 2000, "previous": 1800, "change": "+11.1%", "trend": "up", "target": 2200 },
-      { "id": 9, "metric": "Churn Rate", "current": 5.5, "previous": 6.0, "change": "-8.3%", "trend": "down", "target": 5.0 },
-      { "id": 10, "metric": "Net Promoter Score", "current": 60, "previous": 55, "change": "+9.1%", "trend": "up", "target": 65 }
+      {
+        "id": 1,
+        "lob": "TTS",
+        "coverage": [
+          {
+            "id": 1,
+            "name": "Coverage TTS-1",
+            "value": 691,
+            "status": "Pending",
+            "description": "Coverage item for TTS service"
+          },
+          {
+            "id": 2,
+            "name": "Coverage TTS-2",
+            "value": 940,
+            "status": "Pending",
+            "description": "Coverage item for TTS service"
+          },
+          {
+            "id": 3,
+            "name": "Coverage TTS-3",
+            "value": 927,
+            "status": "Active",
+            "description": "Coverage item for TTS service"
+          },
+          {
+            "id": 4,
+            "name": "Coverage TTS-4",
+            "value": 400,
+            "status": "Active",
+            "description": "Coverage item for TTS service"
+          }
+        ],
+        "totalCoverage": 4,
+        "expanded": false
+      },
+      {
+        "id": 2,
+        "lob": "Voice",
+        "coverage": [
+          {
+            "id": 1,
+            "name": "Coverage Voice-1",
+            "value": 553,
+            "status": "Active",
+            "description": "Coverage item for Voice service"
+          },
+          {
+            "id": 2,
+            "name": "Coverage Voice-2",
+            "value": 121,
+            "status": "Inactive",
+            "description": "Coverage item for Voice service"
+          },
+          {
+            "id": 3,
+            "name": "Coverage Voice-3",
+            "value": 484,
+            "status": "Active",
+            "description": "Coverage item for Voice service"
+          },
+          {
+            "id": 4,
+            "name": "Coverage Voice-4",
+            "value": 29,
+            "status": "Inactive",
+            "description": "Coverage item for Voice service"
+          },
+          {
+            "id": 5,
+            "name": "Coverage Voice-5",
+            "value": 571,
+            "status": "Pending",
+            "description": "Coverage item for Voice service"
+          }
+        ],
+        "totalCoverage": 5,
+        "expanded": false
+      },
+      {
+        "id": 3,
+        "lob": "Data",
+        "coverage": [
+          {
+            "id": 1,
+            "name": "Coverage Data-1",
+            "value": 19,
+            "status": "Active",
+            "description": "Coverage item for Data service"
+          },
+          {
+            "id": 2,
+            "name": "Coverage Data-2",
+            "value": 226,
+            "status": "Inactive",
+            "description": "Coverage item for Data service"
+          },
+          {
+            "id": 3,
+            "name": "Coverage Data-3",
+            "value": 242,
+            "status": "Active",
+            "description": "Coverage item for Data service"
+          }
+        ],
+        "totalCoverage": 3,
+        "expanded": false
+      },
+      {
+        "id": 4,
+        "lob": "Cloud",
+        "coverage": [
+          {
+            "id": 1,
+            "name": "Coverage Cloud-1",
+            "value": 889,
+            "status": "Pending",
+            "description": "Coverage item for Cloud service"
+          },
+          {
+            "id": 2,
+            "name": "Coverage Cloud-2",
+            "value": 342,
+            "status": "Active",
+            "description": "Coverage item for Cloud service"
+          },
+          {
+            "id": 3,
+            "name": "Coverage Cloud-3",
+            "value": 292,
+            "status": "Pending",
+            "description": "Coverage item for Cloud service"
+          },
+          {
+            "id": 4,
+            "name": "Coverage Cloud-4",
+            "value": 31,
+            "status": "Inactive",
+            "description": "Coverage item for Cloud service"
+          },
+          {
+            "id": 5,
+            "name": "Coverage Cloud-5",
+            "value": 298,
+            "status": "Active",
+            "description": "Coverage item for Cloud service"
+          },
+          {
+            "id": 6,
+            "name": "Coverage Cloud-6",
+            "value": 852,
+            "status": "Active",
+            "description": "Coverage item for Cloud service"
+          }
+        ],
+        "totalCoverage": 6,
+        "expanded": false
+      },
+      {
+        "id": 5,
+        "lob": "Security",
+        "coverage": [
+          {
+            "id": 1,
+            "name": "Coverage Security-1",
+            "value": 807,
+            "status": "Inactive",
+            "description": "Coverage item for Security service"
+          },
+          {
+            "id": 2,
+            "name": "Coverage Security-2",
+            "value": 887,
+            "status": "Active",
+            "description": "Coverage item for Security service"
+          },
+          {
+            "id": 3,
+            "name": "Coverage Security-3",
+            "value": 786,
+            "status": "Inactive",
+            "description": "Coverage item for Security service"
+          },
+          {
+            "id": 4,
+            "name": "Coverage Security-4",
+            "value": 347,
+            "status": "Active",
+            "description": "Coverage item for Security service"
+          }
+        ],
+        "totalCoverage": 4,
+        "expanded": false
+      },
+      {
+        "id": 6,
+        "lob": "Network",
+        "coverage": [
+          {
+            "id": 1,
+            "name": "Coverage Network-1",
+            "value": 331,
+            "status": "Inactive",
+            "description": "Coverage item for Network service"
+          },
+          {
+            "id": 2,
+            "name": "Coverage Network-2",
+            "value": 652,
+            "status": "Active",
+            "description": "Coverage item for Network service"
+          },
+          {
+            "id": 3,
+            "name": "Coverage Network-3",
+            "value": 847,
+            "status": "Inactive",
+            "description": "Coverage item for Network service"
+          },
+          {
+            "id": 4,
+            "name": "Coverage Network-4",
+            "value": 191,
+            "status": "Pending",
+            "description": "Coverage item for Network service"
+          },
+          {
+            "id": 5,
+            "name": "Coverage Network-5",
+            "value": 601,
+            "status": "Active",
+            "description": "Coverage item for Network service"
+          }
+        ],
+        "totalCoverage": 5,
+        "expanded": false
+      }
     ],
     "lastUpdated": "10:02:00 AM",
     "totalCount": 10
   },
   "documents": {
     "data": [
-      { "id": 1, "fileName": "document_1.pdf", "type": "PDF", "size": "2.1 MB", "modified": "10/15/2025", "owner": "Charlie Brown", "actions": "View" },
-      { "id": 2, "fileName": "document_2.doc", "type": "DOC", "size": "1.5 MB", "modified": "10/12/2025", "owner": "Diana Prince", "actions": "View" },
-      { "id": 3, "fileName": "document_3.xls", "type": "XLS", "size": "3.0 MB", "modified": "10/10/2025", "owner": "Alice Johnson", "actions": "View" },
-      { "id": 4, "fileName": "document_4.ppt", "type": "PPT", "size": "4.2 MB", "modified": "10/08/2025", "owner": "Bob Smith", "actions": "View" },
-      { "id": 5, "fileName": "document_5.txt", "type": "TXT", "size": "0.8 MB", "modified": "10/05/2025", "owner": "Diana Prince", "actions": "View" },
-      { "id": 6, "fileName": "document_6.zip", "type": "ZIP", "size": "5.5 MB", "modified": "10/03/2025", "owner": "Charlie Brown", "actions": "View" },
-      { "id": 7, "fileName": "document_7.pdf", "type": "PDF", "size": "2.8 MB", "modified": "10/01/2025", "owner": "Alice Johnson", "actions": "View" },
-      { "id": 8, "fileName": "document_8.doc", "type": "DOC", "size": "1.2 MB", "modified": "09/29/2025", "owner": "Bob Smith", "actions": "View" },
-      { "id": 9, "fileName": "document_9.xls", "type": "XLS", "size": "3.7 MB", "modified": "09/27/2025", "owner": "Diana Prince", "actions": "View" },
-      { "id": 10, "fileName": "document_10.ppt", "type": "PPT", "size": "4.0 MB", "modified": "09/25/2025", "owner": "Charlie Brown", "actions": "View" }
+      {
+        "id": 1,
+        "fileName": "document_1.pdf",
+        "type": "PDF",
+        "size": "2.1 MB",
+        "modified": "10/15/2025",
+        "owner": "Charlie Brown",
+        "actions": "View"
+      },
+      {
+        "id": 2,
+        "fileName": "document_2.doc",
+        "type": "DOC",
+        "size": "1.5 MB",
+        "modified": "10/12/2025",
+        "owner": "Diana Prince",
+        "actions": "View"
+      },
+      {
+        "id": 3,
+        "fileName": "document_3.xls",
+        "type": "XLS",
+        "size": "3.0 MB",
+        "modified": "10/10/2025",
+        "owner": "Alice Johnson",
+        "actions": "View"
+      },
+      {
+        "id": 4,
+        "fileName": "document_4.ppt",
+        "type": "PPT",
+        "size": "4.2 MB",
+        "modified": "10/08/2025",
+        "owner": "Bob Smith",
+        "actions": "View"
+      },
+      {
+        "id": 5,
+        "fileName": "document_5.txt",
+        "type": "TXT",
+        "size": "0.8 MB",
+        "modified": "10/05/2025",
+        "owner": "Diana Prince",
+        "actions": "View"
+      },
+      {
+        "id": 6,
+        "fileName": "document_6.zip",
+        "type": "ZIP",
+        "size": "5.5 MB",
+        "modified": "10/03/2025",
+        "owner": "Charlie Brown",
+        "actions": "View"
+      },
+      {
+        "id": 7,
+        "fileName": "document_7.pdf",
+        "type": "PDF",
+        "size": "2.8 MB",
+        "modified": "10/01/2025",
+        "owner": "Alice Johnson",
+        "actions": "View"
+      },
+      {
+        "id": 8,
+        "fileName": "document_8.doc",
+        "type": "DOC",
+        "size": "1.2 MB",
+        "modified": "09/29/2025",
+        "owner": "Bob Smith",
+        "actions": "View"
+      },
+      {
+        "id": 9,
+        "fileName": "document_9.xls",
+        "type": "XLS",
+        "size": "3.7 MB",
+        "modified": "09/27/2025",
+        "owner": "Diana Prince",
+        "actions": "View"
+      },
+      {
+        "id": 10,
+        "fileName": "document_10.ppt",
+        "type": "PPT",
+        "size": "4.0 MB",
+        "modified": "09/25/2025",
+        "owner": "Charlie Brown",
+        "actions": "View"
+      }
     ],
     "lastUpdated": "10:03:00 AM",
     "totalCount": 10
   },
   "settings": {
     "data": [
-      { "id": 1, "setting": "Setting 1", "value": "Enabled", "description": "This controls feature 1 behavior", "lastModified": "10/01/2025" },
-      { "id": 2, "setting": "Setting 2", "value": "Disabled", "description": "This controls feature 2 behavior", "lastModified": "09/28/2025" },
-      { "id": 3, "setting": "Setting 3", "value": "Enabled", "description": "This controls feature 3 behavior", "lastModified": "09/20/2025" },
-      { "id": 4, "setting": "Setting 4", "value": "Disabled", "description": "This controls feature 4 behavior", "lastModified": "09/15/2025" },
-      { "id": 5, "setting": "Setting 5", "value": "Enabled", "description": "This controls feature 5 behavior", "lastModified": "09/10/2025" },
-      { "id": 6, "setting": "Setting 6", "value": "Disabled", "description": "This controls feature 6 behavior", "lastModified": "09/05/2025" },
-      { "id": 7, "setting": "Setting 7", "value": "Enabled", "description": "This controls feature 7 behavior", "lastModified": "09/01/2025" },
-      { "id": 8, "setting": "Setting 8", "value": "Disabled", "description": "This controls feature 8 behavior", "lastModified": "08/28/2025" },
-      { "id": 9, "setting": "Setting 9", "value": "Enabled", "description": "This controls feature 9 behavior", "lastModified": "08/20/2025" },
-      { "id": 10, "setting": "Setting 10", "value": "Disabled", "description": "This controls feature 10 behavior", "lastModified": "08/15/2025" }
+      {
+        "id": 1,
+        "setting": "Setting 1",
+        "value": "Enabled",
+        "description": "This controls feature 1 behavior",
+        "lastModified": "10/01/2025"
+      },
+      {
+        "id": 2,
+        "setting": "Setting 2",
+        "value": "Disabled",
+        "description": "This controls feature 2 behavior",
+        "lastModified": "09/28/2025"
+      },
+      {
+        "id": 3,
+        "setting": "Setting 3",
+        "value": "Enabled",
+        "description": "This controls feature 3 behavior",
+        "lastModified": "09/20/2025"
+      },
+      {
+        "id": 4,
+        "setting": "Setting 4",
+        "value": "Disabled",
+        "description": "This controls feature 4 behavior",
+        "lastModified": "09/15/2025"
+      },
+      {
+        "id": 5,
+        "setting": "Setting 5",
+        "value": "Enabled",
+        "description": "This controls feature 5 behavior",
+        "lastModified": "09/10/2025"
+      },
+      {
+        "id": 6,
+        "setting": "Setting 6",
+        "value": "Disabled",
+        "description": "This controls feature 6 behavior",
+        "lastModified": "09/05/2025"
+      },
+      {
+        "id": 7,
+        "setting": "Setting 7",
+        "value": "Enabled",
+        "description": "This controls feature 7 behavior",
+        "lastModified": "09/01/2025"
+      },
+      {
+        "id": 8,
+        "setting": "Setting 8",
+        "value": "Disabled",
+        "description": "This controls feature 8 behavior",
+        "lastModified": "08/28/2025"
+      },
+      {
+        "id": 9,
+        "setting": "Setting 9",
+        "value": "Enabled",
+        "description": "This controls feature 9 behavior",
+        "lastModified": "08/20/2025"
+      },
+      {
+        "id": 10,
+        "setting": "Setting 10",
+        "value": "Disabled",
+        "description": "This controls feature 10 behavior",
+        "lastModified": "08/15/2025"
+      }
     ],
     "lastUpdated": "10:04:00 AM",
     "totalCount": 10
