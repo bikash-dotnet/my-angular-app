@@ -1,0 +1,172 @@
+<div class="container mt-4">
+      <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+          <h2 class="h5 mb-0">QMA INFORMATION SYSTEM</h2>
+        </div>
+        <div class="card-body p-4">
+          <form #qmaForm="ngForm" (ngSubmit)="onSubmit()">
+            <!-- Accordion -->
+            <div class="accordion" id="mainAccordion">
+              <div class="accordion-item" *ngFor="let item of qmaData; let i = index">
+                <h2 class="accordion-header" [id]="'heading-' + i">
+                  <button 
+                    class="accordion-button fs-5 fw-bold" 
+                    [class.collapsed]="i !== 0"
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    [attr.data-bs-target]="'#collapse-' + i"
+                    [attr.aria-expanded]="i === 0 ? 'true' : 'false'"
+                    [attr.aria-controls]="'collapse-' + i">
+                    {{ item.srcsysid }}
+                  </button>
+                </h2>
+                <div 
+                  [id]="'collapse-' + i" 
+                  class="accordion-collapse collapse" 
+                  [class.show]="i === 0"
+                  [attr.aria-labelledby]="'heading-' + i" 
+                  data-bs-parent="#mainAccordion">
+                  <div class="accordion-body bg-light">
+                    
+                    <!-- Basic Information -->
+                    <div class="card mb-4 border-0 bg-white shadow-sm">
+                      <div class="card-body">
+                        <h5 class="card-title mb-3">Basic Information</h5>
+                        <div class="row g-3">
+                          <div class="col-md-4">
+                            <label class="form-label text-muted small">Product</label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              [(ngModel)]="item.product"
+                              [name]="'product-' + i">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label text-muted small">Region</label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              [(ngModel)]="item.region"
+                              [name]="'region-' + i">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label text-muted small">Market</label>
+                            <input 
+                              type="text" 
+                              class="form-control" 
+                              [(ngModel)]="item.market"
+                              [name]="'market-' + i">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Management IDs -->
+                    <div class="card mb-4 border-0 bg-white shadow-sm">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                          <h5 class="card-title mb-0">Management IDs</h5>
+                          <button 
+                            type="button" 
+                            class="btn btn-success btn-sm"
+                            (click)="addManagementId(i)">
+                            <i class="bi bi-plus-circle"></i> Add Management ID
+                          </button>
+                        </div>
+                        
+                        <div class="row g-3" *ngIf="item.managementid.length > 0">
+                          <div class="col-lg-6" *ngFor="let mgmt of item.managementid; let j = index">
+                            <div class="card border">
+                              <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                  <span class="fw-bold text-muted small">Management ID</span>
+                                  <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-danger"
+                                    (click)="removeManagementId(i, j)">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                                <input 
+                                  type="text" 
+                                  class="form-control" 
+                                  [(ngModel)]="mgmt.id"
+                                  [name]="'management-' + i + '-' + j">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="item.managementid.length === 0" class="text-center text-muted py-4">
+                          <p class="mb-2">No Management IDs available</p>
+                          <button 
+                            type="button" 
+                            class="btn btn-outline-primary btn-sm"
+                            (click)="addManagementId(i)">
+                            Add Management ID
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Mnemonics -->
+                    <div class="card border-0 bg-white shadow-sm">
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                          <h5 class="card-title mb-0">Mnemonics</h5>
+                          <button 
+                            type="button" 
+                            class="btn btn-success btn-sm"
+                            (click)="addMnemonic(i)">
+                            <i class="bi bi-plus-circle"></i> Add Mnemonic
+                          </button>
+                        </div>
+                        
+                        <div *ngIf="item.mnemonic.length === 0" class="text-center text-muted py-4">
+                          <p class="mb-2">Currently there are no Mnemonics available.</p>
+                          <button 
+                            type="button" 
+                            class="btn btn-primary btn-sm"
+                            (click)="addMnemonic(i)">
+                            Add Mnemonic
+                          </button>
+                        </div>
+                        
+                        <div class="row g-3" *ngIf="item.mnemonic.length > 0">
+                          <div class="col-lg-6" *ngFor="let mnemonic of item.mnemonic; let k = index">
+                            <div class="card border">
+                              <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                  <span class="fw-bold text-muted small">Mnemonic</span>
+                                  <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-danger"
+                                    (click)="removeMnemonic(i, k)">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                                <input 
+                                  type="text" 
+                                  class="form-control" 
+                                  [(ngModel)]="item.mnemonic[k]"
+                                  [name]="'mnemonic-' + i + '-' + k">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+              <button type="submit" class="btn btn-primary">Save All Changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
