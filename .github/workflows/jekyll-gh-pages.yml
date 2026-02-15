@@ -1,0 +1,45 @@
+# .github/workflows/deploy.yml
+name: Deploy Angular App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master   # Change if your default branch is different
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout your repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'   # Use Node.js v25.x
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Build Angular app
+      - name: Build Angular app
+        run: npm run build
+
+      # Flatten docs/browser if needed
+      - name: Flatten docs folder
+        run: |
+          if [ -d "docs/browser" ]; then
+            cp -r docs/browser/* docs/
+            rm -rf docs/browser
+          fi
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs
