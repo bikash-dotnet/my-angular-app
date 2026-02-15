@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+
 import { Router, RouterModule } from '@angular/router';
 import { TabConfig, TabData, Tile } from '../tile.model';
 import { TileService } from '../tile.service';
@@ -10,7 +10,7 @@ import { ExpandableContent } from '../expandable-content/expandable-content';
 @Component({
   selector: 'app-listing',
   standalone: true,
-  imports: [CommonModule, RouterModule, ExpandableContent],
+  imports: [RouterModule, ExpandableContent],
   templateUrl: './listing.html',
   styleUrls: ['./listing.scss']
 })

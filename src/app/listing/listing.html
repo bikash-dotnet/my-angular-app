@@ -9,50 +9,50 @@
     <!-- Right Column -->
     <div class="col-9 p-4">
       <h2 class="mb-4">Tile Accordion</h2>
-      
+
       <div class="accordion" id="tileAccordion">
         <!-- Iterate through tiles -->
-        <div *ngFor="let tile of tiles" 
-             class="accordion-item border rounded-3 mb-3 shadow-sm">
-          
-          <div class="accordion-header">
-            <div class="p-3 clickable" (click)="navigateToDetail(tile.id)" role="button" tabindex="0">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex align-items-center flex-grow-1">
-                  <button class="btn btn-sm btn-outline-primary me-3"
-                          type="button"
-                          (click)="$event.stopPropagation(); toggleTile(tile.id)">
-                    <i class="bi" 
-                       [class.bi-chevron-down]="isTileExpanded(tile.id)" 
-                       [class.bi-chevron-right]="!isTileExpanded(tile.id)"></i>
-                  </button>
-                  <div class="flex-grow-1">
-                    <h5 class="mb-1 text-dark">{{ tile.title }}</h5>
-                    <p class="text-muted mb-0 small">{{ tile.description }}</p>
+        @for (tile of tiles; track tile) {
+          <div
+            class="accordion-item border rounded-3 mb-3 shadow-sm">
+            <div class="accordion-header">
+              <div class="p-3 clickable" (click)="navigateToDetail(tile.id)" role="button" tabindex="0">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex align-items-center flex-grow-1">
+                    <button class="btn btn-sm btn-outline-primary me-3"
+                      type="button"
+                      (click)="$event.stopPropagation(); toggleTile(tile.id)">
+                      <i class="bi"
+                        [class.bi-chevron-down]="isTileExpanded(tile.id)"
+                      [class.bi-chevron-right]="!isTileExpanded(tile.id)"></i>
+                    </button>
+                    <div class="flex-grow-1">
+                      <h5 class="mb-1 text-dark">{{ tile.title }}</h5>
+                      <p class="text-muted mb-0 small">{{ tile.description }}</p>
+                    </div>
                   </div>
-                </div>
-                <div class="ms-3">
-                  <span [class]="'badge ' + tile.badgeClass + ' fs-6'">
-                    {{ tile.badgeNumber }}
-                  </span>
+                  <div class="ms-3">
+                    <span [class]="'badge ' + tile.badgeClass + ' fs-6'">
+                      {{ tile.badgeNumber }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- Expandable Content Section -->
+            <div class="accordion-body border-top bg-light p-0" [class.d-block]="isTileExpanded(tile.id)" [class.d-none]="!isTileExpanded(tile.id)">
+              <app-expandable-content
+                [tileId]="tile.id"
+                [isExpanded]="isTileExpanded(tile.id)"
+                [activeTabData]="getTileTabData(tile.id)"
+                [selectedTabId]="getActiveTab(tile.id)"
+                [showDocuments]="tile.showDocuments ?? true"
+                (tabSelected)="onTabSelected($event)"
+                (tabRefreshed)="onTabRefreshed($event)">
+              </app-expandable-content>
+            </div>
           </div>
-
-          <!-- Expandable Content Section -->
-          <div class="accordion-body border-top bg-light p-0" [class.d-block]="isTileExpanded(tile.id)" [class.d-none]="!isTileExpanded(tile.id)">
-            <app-expandable-content
-              [tileId]="tile.id"
-              [isExpanded]="isTileExpanded(tile.id)"
-              [activeTabData]="getTileTabData(tile.id)"
-              [selectedTabId]="getActiveTab(tile.id)"
-              [showDocuments]="tile.showDocuments ?? true"
-              (tabSelected)="onTabSelected($event)"
-              (tabRefreshed)="onTabRefreshed($event)">
-            </app-expandable-content>
-          </div>
-        </div>
+        }
       </div>
     </div>
   </div>

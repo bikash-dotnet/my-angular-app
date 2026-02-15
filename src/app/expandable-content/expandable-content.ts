@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { CommonModule, NgForOf, NgIf } from '@angular/common';
+
 import { CoverageItem, TabData, TableColumn } from '../tile.model';
 import { TileService } from '../tile.service';
 @Component({
   selector: 'app-expandable-content',
   standalone: true,
-  imports: [CommonModule, NgForOf, NgIf],
+  imports: [],
   templateUrl: './expandable-content.html',
   styleUrls: ['./expandable-content.scss'],
 })

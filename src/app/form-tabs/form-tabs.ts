@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -17,7 +17,7 @@ interface QmaData {
 
 @Component({
   selector: 'app-form-tabs',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './form-tabs.html',
   styleUrl: './form-tabs.scss'
 })

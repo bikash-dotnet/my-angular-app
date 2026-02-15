@@ -3,369 +3,397 @@
   <!-- Tab Headers -->
   <div class="tabs-header d-flex align-items-center justify-content-between border-bottom">
     <ul class="nav nav-tabs mb-0 border-0">
-      <li class="nav-item" *ngFor="let tab of getVisibleTabs()">
-          <button class="nav-link d-flex align-items-center" 
-          [class.active]="isTabActive(tab.id)"
-                  (click)="onTabClick(tab.id)">
-          <!-- Tab Icon -->
-          <i *ngIf="tab.icon" [class]="tab.icon + ' me-1'"></i>
-          <!-- Tab Title -->
-          <span>{{ tab.title }}</span>
-        </button>
-      </li>
+      @for (tab of getVisibleTabs(); track tab) {
+        <li class="nav-item">
+          <button class="nav-link d-flex align-items-center"
+            [class.active]="isTabActive(tab.id)"
+            (click)="onTabClick(tab.id)">
+            <!-- Tab Icon -->
+            @if (tab.icon) {
+              <i [class]="tab.icon + ' me-1'"></i>
+            }
+            <!-- Tab Title -->
+            <span>{{ tab.title }}</span>
+          </button>
+        </li>
+      }
     </ul>
 
     <!-- Single Refresh Icon for Active Tab -->
-    <div class="me-3 refresh-container" *ngIf="getSelectedTab()">
+    @if (getSelectedTab()) {
+      <div class="me-3 refresh-container">
         <button class="btn btn-sm btn-outline-secondary d-flex align-items-center"
-        (click)="refreshActiveTab($event)"
-                [attr.title]="'Refresh: ' + (getSelectedTab()?.title || '')">
+          (click)="refreshActiveTab($event)"
+          [attr.title]="'Refresh: ' + (getSelectedTab()?.title || '')">
           <i class="bi bi-arrow-clockwise" [class.text-success]="getSelectedTab()?.loaded && !getSelectedTab()?.loading"></i>
-      </button>
-    </div>
+        </button>
+      </div>
+    }
   </div>
 
   <!-- Tab Content -->
   <div class="tab-content p-2">
-      <div *ngFor="let tab of getVisibleTabs()" 
-      class="tab-pane fade"
-      [class.show]="isTabActive(tab.id)"
-           [class.active]="isTabActive(tab.id)">
-        
-      <!-- Loading State (only show for active tab) -->
-      <div *ngIf="isTabActive(tab.id) && tab.loading" class="loading-state">
-        <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
-        <p class="mt-2 text-muted">Loading {{ tab.title }}...</p>
-      </div>
-
-      <!-- Loaded Content (only for active tab) -->
-      <div *ngIf="isTabActive(tab.id) && !tab.loading && tab.loaded" class="h-auto">
-        <!-- Table Container with Fixed Height and Scroll -->
-        <div class="table-container table-wrapper overflow-auto" [class.empty]="!hasData(tab.id)">
-          <!-- Empty State -->
-          <div *ngIf="!hasData(tab.id)" class="empty-state text-center">
-            <i class="bi bi-inbox display-4 text-muted"></i>
-            <h5 class="mt-3 text-muted">No Data Available</h5>
-            <p class="text-muted">There are no records to display for this tab.</p>
-              <button class="btn btn-primary mt-2"
-                      (click)="onRefreshClick(tab.id, $event)">
-              Try Loading Again
-            </button>
+    @for (tab of getVisibleTabs(); track tab) {
+      <div
+        class="tab-pane fade"
+        [class.show]="isTabActive(tab.id)"
+        [class.active]="isTabActive(tab.id)">
+        <!-- Loading State (only show for active tab) -->
+        @if (isTabActive(tab.id) && tab.loading) {
+          <div class="loading-state">
+            <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+            <p class="mt-2 text-muted">Loading {{ tab.title }}...</p>
           </div>
-
-          <!-- Data Table -->
-          <div *ngIf="hasData(tab.id) && !isAnalyticsTab()" class="table-responsive table-wrapper">
-            <div class="table-scroll">
-              <table class="table table-striped table-hover mb-0">
-                <thead class="table-light sticky-top">
-                  <tr>
-                    <th *ngFor="let column of columns"
-                      [style.width]="column.width"
-                      [class.sortable]="column.sortable">
-                      {{ column.label }}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of tab.data; trackBy: trackByFn">
-                    <td *ngFor="let column of columns">
-                      
-                      <!-- Status Badges -->
-                      <span *ngIf="column.key === 'status' || column.key === 'priority'" 
-                        class="badge"
-                            [class.bg-success]="item[column.key] === 'Completed' || item[column.key] === 'Low'"
-                            [class.bg-warning]="item[column.key] === 'In Progress' || item[column.key] === 'Medium'"
-                            [class.bg-danger]="item[column.key] === 'On Hold' || item[column.key] === 'High'"
-                            [class.bg-primary]="item[column.key] === 'Active' || item[column.key] === 'Pending'"
-                            [class.bg-secondary]="item[column.key] === 'Remote' || item[column.key] === 'On Leave'">
-                        {{ item[column.key] }}
-                      </span>
-
-                      <!-- Progress Bar -->
-                      <div *ngIf="column.key === 'progress'" class="d-flex align-items-center">
-                        <div class="progress flex-grow-1 me-2 progress-sm">
-                          <div class="progress-bar" 
-                            [style.width.%]="item[column.key]"
-                            [class.bg-success]="item[column.key] > 75"
-                            [class.bg-warning]="item[column.key] > 25 && item[column.key] <= 75"
-                               [class.bg-danger]="item[column.key] <= 25">
-                          </div>
-                        </div>
-                        <small class="text-nowrap">{{ item[column.key] }}%</small>
-                      </div>
-
-                      <!-- Trend Icons -->
-                      <span *ngIf="column.key === 'trend'">
-                        <i [class]="item[column.key] === 'up' ? 'bi bi-arrow-up-circle text-success' : 'bi bi-arrow-down-circle text-danger'"></i>
-                        {{ item[column.key] === 'up' ? 'Increasing' : 'Decreasing' }}
-                      </span>
-
-                      <!-- Actions -->
-                      <span *ngIf="column.key === 'actions'">
-                        <button class="btn btn-sm btn-outline-primary">
-                          <i class="bi bi-eye"></i>
-                        </button>
-                      </span>
-
-                      <!-- Default Display -->
-                      <span *ngIf="!['status', 'priority', 'progress', 'trend', 'actions'].includes(column.key)">
-                        {{ item[column.key] }}
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Expandable Table for Analytics Tab -->
-          <div *ngIf="hasData(tab.id) && isAnalyticsTab()"
-            class="d-none table-responsive flex-grow-1 border rounded"
-          >
-            <table class="table table-hover mb-0">
-              <thead class="table-light position-sticky top-0">
-                <tr>
-                    <th class="w-auto" style="width: 50px;"></th>
-                  <th class="w-auto">LOB (Line of Business)</th>
-                  <th class="w-auto">Total Coverage</th>
-                  <th class="w-auto">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let item of tab.data; trackBy: trackByFn">
-                  <!-- Parent Row -->
-                  <tr [class.table-active]="isRowExpanded(item.id)">
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
-                        (click)="toggleRow(item.id, $event)"
-                        [title]="isRowExpanded(item.id) ? 'Collapse' : 'Expand'"
-                                style="width: 30px; height: 30px;">
-                          <i class="bi" 
-                          [class.bi-chevron-down]="isRowExpanded(item.id)"
-                             [class.bi-chevron-right]="!isRowExpanded(item.id)"></i>
-                      </button>
-                    </td>
-                    <td>
-                      <strong>{{ item.lob }}</strong>
-                    </td>
-                    <td>
-                        <span class="badge bg-primary">{{ item.totalCoverage || item.coverage.length }}</span>
-                    </td>
-                    <td>
-                      <button class="btn btn-sm btn-outline-secondary">
-                        <i class="bi bi-three-dots"></i>
-                      </button>
-                    </td>
-                  </tr>
-
-                  <!-- Child Row (Expanded Content) -->
-                  <tr *ngIf="isRowExpanded(item.id)">
-                    <td colspan="4" class="p-0 border-0">
-                      <div class="bg-light">
-                        <div class="p-3 border-bottom border-1">
-                          <h6 class="mb-1">Coverage for {{ item.lob }}</h6>
-                            <small class="text-muted">{{ item.coverage.length }} coverage items</small>
-                        </div>
-
-                        <!-- Child Table -->
-                        <div class="p-2">
-                            <div class="table-responsive" style="max-height: 200px;">
-                            <table class="table table-sm table-bordered mb-0">
-                              <thead class="table-secondary position-sticky top-0">
-                                <tr>
-                                  <th class="w-auto">ID</th>
-                                  <th class="w-auto">Name</th>
-                                  <th class="w-auto">Value</th>
-                                  <th class="w-auto">Status</th>
-                                  <th class="w-auto">Description</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                  <tr *ngFor="let coverageItem of item.coverage; trackBy: trackByCoverageFn">
-                                  <td>
-                                    <span class="badge bg-dark">#{{ coverageItem.id }}</span>
-                                  </td>
-                                  <td>
-                                    <strong>{{ coverageItem.name }}</strong>
-                                  </td>
-                                  <td>
-                                      <span class="text-success fw-bold">{{ coverageItem.value || 'N/A' }}</span>
-                                  </td>
-                                  <td>
-                                      <span class="badge" 
-                                      [class.bg-success]="coverageItem.status === 'Active'"
-                                      [class.bg-warning]="coverageItem.status === 'Pending'"
-                                            [class.bg-danger]="coverageItem.status === 'Inactive'">
-                                      {{ coverageItem.status || 'Unknown' }}
-                                    </span>
-                                  </td>
-                                  <td>
-                                      <small class="text-muted">{{ coverageItem.description || 'No description' }}</small>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Accordion for Analytics Tab -->
-          <div *ngIf="hasData(tab.id) && isAnalyticsTab()" class="flex-grow-1">
-            <div class="accordion" id="analyticsAccordion">
-              <div *ngFor="let item of tab.data; trackBy: trackByFn; let i = index"
-                class="accordion-item border rounded-0"
-                [class.rounded-top]="i === 0"
+        }
+        <!-- Loaded Content (only for active tab) -->
+        @if (isTabActive(tab.id) && !tab.loading && tab.loaded) {
+          <div class="h-auto">
+            <!-- Table Container with Fixed Height and Scroll -->
+            <div class="table-container table-wrapper overflow-auto" [class.empty]="!hasData(tab.id)">
+              <!-- Empty State -->
+              @if (!hasData(tab.id)) {
+                <div class="empty-state text-center">
+                  <i class="bi bi-inbox display-4 text-muted"></i>
+                  <h5 class="mt-3 text-muted">No Data Available</h5>
+                  <p class="text-muted">There are no records to display for this tab.</p>
+                  <button class="btn btn-primary mt-2"
+                    (click)="onRefreshClick(tab.id, $event)">
+                    Try Loading Again
+                  </button>
+                </div>
+              }
+              <!-- Data Table -->
+              @if (hasData(tab.id) && !isAnalyticsTab()) {
+                <div class="table-responsive table-wrapper">
+                  <div class="table-scroll">
+                    <table class="table table-striped table-hover mb-0">
+                      <thead class="table-light sticky-top">
+                        <tr>
+                          @for (column of columns; track column) {
+                            <th
+                              [style.width]="column.width"
+                              [class.sortable]="column.sortable">
+                              {{ column.label }}
+                            </th>
+                          }
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (item of tab.data; track trackByFn($index, item)) {
+                          <tr>
+                            @for (column of columns; track column) {
+                              <td>
+                                <!-- Status Badges -->
+                                @if (column.key === 'status' || column.key === 'priority') {
+                                  <span
+                                    class="badge"
+                                    [class.bg-success]="item[column.key] === 'Completed' || item[column.key] === 'Low'"
+                                    [class.bg-warning]="item[column.key] === 'In Progress' || item[column.key] === 'Medium'"
+                                    [class.bg-danger]="item[column.key] === 'On Hold' || item[column.key] === 'High'"
+                                    [class.bg-primary]="item[column.key] === 'Active' || item[column.key] === 'Pending'"
+                                    [class.bg-secondary]="item[column.key] === 'Remote' || item[column.key] === 'On Leave'">
+                                    {{ item[column.key] }}
+                                  </span>
+                                }
+                                <!-- Progress Bar -->
+                                @if (column.key === 'progress') {
+                                  <div class="d-flex align-items-center">
+                                    <div class="progress flex-grow-1 me-2 progress-sm">
+                                      <div class="progress-bar"
+                                        [style.width.%]="item[column.key]"
+                                        [class.bg-success]="item[column.key] > 75"
+                                        [class.bg-warning]="item[column.key] > 25 && item[column.key] <= 75"
+                                        [class.bg-danger]="item[column.key] <= 25">
+                                      </div>
+                                    </div>
+                                    <small class="text-nowrap">{{ item[column.key] }}%</small>
+                                  </div>
+                                }
+                                <!-- Trend Icons -->
+                                @if (column.key === 'trend') {
+                                  <span>
+                                    <i [class]="item[column.key] === 'up' ? 'bi bi-arrow-up-circle text-success' : 'bi bi-arrow-down-circle text-danger'"></i>
+                                    {{ item[column.key] === 'up' ? 'Increasing' : 'Decreasing' }}
+                                  </span>
+                                }
+                                <!-- Actions -->
+                                @if (column.key === 'actions') {
+                                  <span>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                      <i class="bi bi-eye"></i>
+                                    </button>
+                                  </span>
+                                }
+                                <!-- Default Display -->
+                                @if (!['status', 'priority', 'progress', 'trend', 'actions'].includes(column.key)) {
+                                  <span>
+                                    {{ item[column.key] }}
+                                  </span>
+                                }
+                              </td>
+                            }
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              }
+              <!-- Expandable Table for Analytics Tab -->
+              @if (hasData(tab.id) && isAnalyticsTab()) {
+                <div
+                  class="d-none table-responsive flex-grow-1 border rounded"
+                  >
+                  <table class="table table-hover mb-0">
+                    <thead class="table-light position-sticky top-0">
+                      <tr>
+                        <th class="w-auto" style="width: 50px;"></th>
+                        <th class="w-auto">LOB (Line of Business)</th>
+                        <th class="w-auto">Total Coverage</th>
+                        <th class="w-auto">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (item of tab.data; track trackByFn($index, item)) {
+                        <!-- Parent Row -->
+                        <tr [class.table-active]="isRowExpanded(item.id)">
+                          <td>
+                            <button class="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center"
+                              (click)="toggleRow(item.id, $event)"
+                              [title]="isRowExpanded(item.id) ? 'Collapse' : 'Expand'"
+                              style="width: 30px; height: 30px;">
+                              <i class="bi"
+                                [class.bi-chevron-down]="isRowExpanded(item.id)"
+                              [class.bi-chevron-right]="!isRowExpanded(item.id)"></i>
+                            </button>
+                          </td>
+                          <td>
+                            <strong>{{ item.lob }}</strong>
+                          </td>
+                          <td>
+                            <span class="badge bg-primary">{{ item.totalCoverage || item.coverage.length }}</span>
+                          </td>
+                          <td>
+                            <button class="btn btn-sm btn-outline-secondary">
+                              <i class="bi bi-three-dots"></i>
+                            </button>
+                          </td>
+                        </tr>
+                        <!-- Child Row (Expanded Content) -->
+                        @if (isRowExpanded(item.id)) {
+                          <tr>
+                            <td colspan="4" class="p-0 border-0">
+                              <div class="bg-light">
+                                <div class="p-3 border-bottom border-1">
+                                  <h6 class="mb-1">Coverage for {{ item.lob }}</h6>
+                                  <small class="text-muted">{{ item.coverage.length }} coverage items</small>
+                                </div>
+                                <!-- Child Table -->
+                                <div class="p-2">
+                                  <div class="table-responsive" style="max-height: 200px;">
+                                    <table class="table table-sm table-bordered mb-0">
+                                      <thead class="table-secondary position-sticky top-0">
+                                        <tr>
+                                          <th class="w-auto">ID</th>
+                                          <th class="w-auto">Name</th>
+                                          <th class="w-auto">Value</th>
+                                          <th class="w-auto">Status</th>
+                                          <th class="w-auto">Description</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        @for (coverageItem of item.coverage; track trackByCoverageFn($index, coverageItem)) {
+                                          <tr>
+                                            <td>
+                                              <span class="badge bg-dark">#{{ coverageItem.id }}</span>
+                                            </td>
+                                            <td>
+                                              <strong>{{ coverageItem.name }}</strong>
+                                            </td>
+                                            <td>
+                                              <span class="text-success fw-bold">{{ coverageItem.value || 'N/A' }}</span>
+                                            </td>
+                                            <td>
+                                              <span class="badge"
+                                                [class.bg-success]="coverageItem.status === 'Active'"
+                                                [class.bg-warning]="coverageItem.status === 'Pending'"
+                                                [class.bg-danger]="coverageItem.status === 'Inactive'">
+                                                {{ coverageItem.status || 'Unknown' }}
+                                              </span>
+                                            </td>
+                                            <td>
+                                              <small class="text-muted">{{ coverageItem.description || 'No description' }}</small>
+                                            </td>
+                                          </tr>
+                                        }
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        }
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              }
+              <!-- Accordion for Analytics Tab -->
+              @if (hasData(tab.id) && isAnalyticsTab()) {
+                <div class="flex-grow-1">
+                  <div class="accordion" id="analyticsAccordion">
+                    @for (item of tab.data; track trackByFn(i, item); let i = $index) {
+                      <div
+                        class="accordion-item border rounded-0"
+                        [class.rounded-top]="i === 0"
                 [class.rounded-bottom]="
                   i === (tab.data?.length ?? 0) - 1 && !isRowExpanded(item.id)
                 "
-                [class.border-top-0]="i !== 0"
-              >
-                <!-- Accordion Header -->
-                <h2 class="accordion-header">
-                  <button
-                    class="accordion-button p-1 collapsed d-flex justify-content-between align-items-center py-3"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    [attr.data-bs-target]="'#collapse' + item.id"
-                    [attr.aria-expanded]="isRowExpanded(item.id)"
-                    [attr.aria-controls]="'collapse' + item.id"
-                    (click)="toggleRow(item.id)"
-                  >
-                    <div class="d-flex align-items-center flex-grow-1">
-                      <div class="me-3">
-                        <i class="bi bi-building text-primary fs-5"></i>
-                      </div>
-                      <div class="text-start">
-                        <h6 class="mb-1 text-dark">{{ item.lob }}</h6>
-                        <small class="text-muted">{{ item.coverage.length }} coverage items</small>
-                      </div>
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                      <span class="badge bg-primary me-3">{{
-                        item.totalCoverage || item.coverage.length
-                      }}</span>
-                      <div class="accordion-arrow">
-                          <i class="bi bi-chevron-down accordion-icon"></i>
-                        </div>
-                    </div>
-                  </button>
-                </h2>
-
-                <!-- Accordion Body -->
-                <div
-                  [id]="'collapse' + item.id"
-                  class="accordion-collapse collapse"
-                  [class.show]="isRowExpanded(item.id)"
-                  data-bs-parent="#analyticsAccordion"
-                >
-                  <div class="accordion-body p-0">
-                    <!-- Coverage Table -->
-                    <div class="p-3 bg-light border-bottom">
-                      <h6 class="mb-2">Coverage Details for {{ item.lob }}</h6>
-                      <small class="text-muted">Detailed breakdown of coverage items</small>
-                    </div>
-
-                    <div class="table-responsive">
-                      <table class="table table-sm table-hover mb-0">
-                        <thead class="table-secondary position-sticky top-0">
-                          <tr>
-                            <th class="w-auto">ID</th>
-                            <th class="w-auto">Name</th>
-                            <th class="w-auto">Value</th>
-                            <th class="w-auto">Status</th>
-                            <th class="w-auto d-none d-md-table-cell">Description</th>
-                            <th class="w-auto">Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr
-                            *ngFor="let coverageItem of item.coverage; trackBy: trackByCoverageFn"
-                          >
-                            <td>
-                              <span class="badge bg-dark">#{{ coverageItem.id }}</span>
-                            </td>
-                            <td>
-                              <div>
-                                <strong class="d-block">{{ coverageItem.name }}</strong>
-                                <small class="text-muted d-md-none">{{
-                                  coverageItem.description || 'No description'
-                                }}</small>
+                        [class.border-top-0]="i !== 0"
+                        >
+                        <!-- Accordion Header -->
+                        <h2 class="accordion-header">
+                          <button
+                            class="accordion-button p-1 collapsed d-flex justify-content-between align-items-center py-3"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            [attr.data-bs-target]="'#collapse' + item.id"
+                            [attr.aria-expanded]="isRowExpanded(item.id)"
+                            [attr.aria-controls]="'collapse' + item.id"
+                            (click)="toggleRow(item.id)"
+                            >
+                            <div class="d-flex align-items-center flex-grow-1">
+                              <div class="me-3">
+                                <i class="bi bi-building text-primary fs-5"></i>
                               </div>
-                            </td>
-                            <td>
-                              <span class="text-success fw-bold">{{
-                                coverageItem.value || 'N/A'
+                              <div class="text-start">
+                                <h6 class="mb-1 text-dark">{{ item.lob }}</h6>
+                                <small class="text-muted">{{ item.coverage.length }} coverage items</small>
+                              </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                              <span class="badge bg-primary me-3">{{
+                                item.totalCoverage || item.coverage.length
                               }}</span>
-                            </td>
-                            <td>
-                              <span
-                                class="badge"
-                                [class.bg-success]="coverageItem.status === 'Active'"
-                                [class.bg-warning]="coverageItem.status === 'Pending'"
-                                [class.bg-danger]="coverageItem.status === 'Inactive'"
-                              >
-                                {{ coverageItem.status || 'Unknown' }}
-                              </span>
-                            </td>
-                            <td class="d-none d-md-table-cell">
-                              <small class="text-muted">{{
-                                coverageItem.description || 'No description'
-                              }}</small>
-                            </td>
-                            <td>
-                              <div class="btn-group btn-group-sm" role="group">
-                                <button class="btn btn-outline-primary" title="View">
-                                  <i class="bi bi-eye"></i>
-                                </button>
-                                <button class="btn btn-outline-secondary" title="Edit">
-                                  <i class="bi bi-pencil"></i>
-                                </button>
+                              <div class="accordion-arrow">
+                                <i class="bi bi-chevron-down accordion-icon"></i>
                               </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <!-- Summary Footer -->
-                    <div class="p-3 bg-light border-top">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <small class="text-muted">
-                            Total Items: <strong>{{ item.coverage.length }}</strong>
-                          </small>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                          <small class="text-muted">
-                            Active: <strong>{{ getActiveCount(item.coverage) }}</strong> | Inactive:
-                            <strong>{{ getInactiveCount(item.coverage) }}</strong>
-                          </small>
+                            </div>
+                          </button>
+                        </h2>
+                        <!-- Accordion Body -->
+                        <div
+                          [id]="'collapse' + item.id"
+                          class="accordion-collapse collapse"
+                          [class.show]="isRowExpanded(item.id)"
+                          data-bs-parent="#analyticsAccordion"
+                          >
+                          <div class="accordion-body p-0">
+                            <!-- Coverage Table -->
+                            <div class="p-3 bg-light border-bottom">
+                              <h6 class="mb-2">Coverage Details for {{ item.lob }}</h6>
+                              <small class="text-muted">Detailed breakdown of coverage items</small>
+                            </div>
+                            <div class="table-responsive">
+                              <table class="table table-sm table-hover mb-0">
+                                <thead class="table-secondary position-sticky top-0">
+                                  <tr>
+                                    <th class="w-auto">ID</th>
+                                    <th class="w-auto">Name</th>
+                                    <th class="w-auto">Value</th>
+                                    <th class="w-auto">Status</th>
+                                    <th class="w-auto d-none d-md-table-cell">Description</th>
+                                    <th class="w-auto">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @for (coverageItem of item.coverage; track trackByCoverageFn($index, coverageItem)) {
+                                    <tr
+                                      >
+                                      <td>
+                                        <span class="badge bg-dark">#{{ coverageItem.id }}</span>
+                                      </td>
+                                      <td>
+                                        <div>
+                                          <strong class="d-block">{{ coverageItem.name }}</strong>
+                                          <small class="text-muted d-md-none">{{
+                                            coverageItem.description || 'No description'
+                                          }}</small>
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <span class="text-success fw-bold">{{
+                                          coverageItem.value || 'N/A'
+                                        }}</span>
+                                      </td>
+                                      <td>
+                                        <span
+                                          class="badge"
+                                          [class.bg-success]="coverageItem.status === 'Active'"
+                                          [class.bg-warning]="coverageItem.status === 'Pending'"
+                                          [class.bg-danger]="coverageItem.status === 'Inactive'"
+                                          >
+                                          {{ coverageItem.status || 'Unknown' }}
+                                        </span>
+                                      </td>
+                                      <td class="d-none d-md-table-cell">
+                                        <small class="text-muted">{{
+                                          coverageItem.description || 'No description'
+                                        }}</small>
+                                      </td>
+                                      <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                          <button class="btn btn-outline-primary" title="View">
+                                            <i class="bi bi-eye"></i>
+                                          </button>
+                                          <button class="btn btn-outline-secondary" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                          </button>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  }
+                                </tbody>
+                              </table>
+                            </div>
+                            <!-- Summary Footer -->
+                            <div class="p-3 bg-light border-top">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <small class="text-muted">
+                                    Total Items: <strong>{{ item.coverage.length }}</strong>
+                                  </small>
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                  <small class="text-muted">
+                                    Active: <strong>{{ getActiveCount(item.coverage) }}</strong> | Inactive:
+                                    <strong>{{ getInactiveCount(item.coverage) }}</strong>
+                                  </small>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    }
                   </div>
                 </div>
-              </div>
+              }
             </div>
           </div>
-        </div>
+        }
+        <!-- Not Loaded State (only for active tab) -->
+        @if (isTabActive(tab.id) && !tab.loading && !tab.loaded) {
+          <div class="loading-state text-muted">
+            <p>Data not loaded yet</p>
+            <button class="btn btn-sm btn-outline-primary"
+              (click)="onRefreshClick(tab.id, $event)">
+              Load Data
+            </button>
+          </div>
+        }
       </div>
-
-      <!-- Not Loaded State (only for active tab) -->
-        <div *ngIf="isTabActive(tab.id) && !tab.loading && !tab.loaded" class="loading-state text-muted">
-        <p>Data not loaded yet</p>
-          <button class="btn btn-sm btn-outline-primary"
-                  (click)="onRefreshClick(tab.id, $event)">
-          Load Data
-        </button>
-      </div>
-    </div>
+    }
   </div>
 </div>
