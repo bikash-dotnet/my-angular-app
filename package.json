@@ -6,8 +6,7 @@
     "start": "ng serve --open",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "deploy": "powershell ./build-deploy.ps1"
+    "test": "ng test"
   },
   "prettier": {
     "printWidth": 100,
